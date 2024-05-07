@@ -48,19 +48,23 @@ describe('esm-externals', () => {
     const expectedHtml = isTurbopack
       ? /Hello Wrong\+Wrong\+Alternative/
       : /Hello World\+World\+Alternative/
-    const urls = ['/server', '/client']
+    const urls = ['/server', '/client', '/required']
 
     for (const url of urls) {
       const expectedText =
         url !== '/server'
-          ? /Hello World\+World\+World/
+          ? url === '/required'
+            ? /Hello Promise/
+            : /Hello World\+World\+World/
           : isTurbopack
           ? /Hello Wrong\+Wrong\+Alternative/
           : /Hello World\+World\+Alternative/
       it(`should return the correct SSR HTML for ${url}`, async () => {
         const res = await next.fetch(url)
         const html = await res.text()
-        expect(normalize(html)).toMatch(expectedHtml)
+        expect(normalize(html)).toMatch(
+          url === '/required' ? /Hello Promise/ : expectedHtml
+        )
       })
 
       it(`should render the correct page for ${url}`, async () => {
