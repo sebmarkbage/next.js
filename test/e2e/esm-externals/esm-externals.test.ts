@@ -54,7 +54,7 @@ describe('esm-externals', () => {
       const expectedText =
         url !== '/server'
           ? url === '/required'
-            ? /Hello Promise/
+            ? /Hello Promise\+Promise/
             : /Hello World\+World\+World/
           : isTurbopack
           ? /Hello Wrong\+Wrong\+Alternative/
@@ -63,7 +63,7 @@ describe('esm-externals', () => {
         const res = await next.fetch(url)
         const html = await res.text()
         expect(normalize(html)).toMatch(
-          url === '/required' ? /Hello Promise/ : expectedHtml
+          url === '/required' ? /Hello Promise\+Promise/ : expectedHtml
         )
       })
 

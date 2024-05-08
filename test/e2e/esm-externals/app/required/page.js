@@ -1,7 +1,7 @@
-'use client'
+const ClientComponent = require('./component')
 
-const World = require('./other')
+const AsyncModule = require('./async')
 
-export default function Index() {
-  return <div>Hello {World[Symbol.toStringTag]}</div>
+module.exports = function Index() {
+  return <ClientComponent promise={AsyncModule} />
 }
